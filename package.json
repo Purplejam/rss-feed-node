@@ -5,7 +5,8 @@
   "main": "./dist/main.js",
   "type": "commonjs",
   "scripts": {
-    "start": "nodemon --exec ts-node main.ts"
+    "dev": "nodemon --exec ts-node main.ts",
+    "start": "nodemon ./dist/main.js"
   },
   "keywords": [],
   "author": "",

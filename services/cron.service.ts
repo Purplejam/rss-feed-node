@@ -8,5 +8,6 @@ export const cronFunctionService = () => {
 		fetch('http://localhost:5000/api/v1/feed')
 		.then((res) => res.json())
 		.then((res) => console.log(res))
+		.catch((error) => console.log(error))
 	})
 }

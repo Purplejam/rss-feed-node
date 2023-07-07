@@ -8,8 +8,8 @@ export interface IArticle {
 	content: string,
 	contentSnippet: string,
 	guid: string,
-	categories: string[],
-	isoDate: string,
+	categories: string,
+	isoDate: Date,
 	pubData?: string, 
 	isoData?: string, 
 }

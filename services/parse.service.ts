@@ -1,14 +1,15 @@
 import Parser from 'rss-parser'
 import {IArticle} from '../models/interfaces/Article.interface'
-import {createNewFeed, feedDeleteMany} from '../repositories/parser.repository'
+import {createNewFeed, feedDeleteMany, queryArticles} from '../repositories/parser.repository'
+import {IQueryObject} from '../controllers/interfaces/query.interface'
 
 export const parseService = async (url: string) => {
 	const parser = new Parser()
 	const feed = await parser.parseURL(url)
-	const feedItems = feed.items as IArticle[]
+	const feedItems = feed.items
 	const articles: IArticle[] = []
 
-	feedItems.forEach((item: IArticle) => {
+	feedItems.forEach((item: any) => {
 		const newArticle: IArticle = {
 			title: item.title,
 			link: item.link, 
@@ -19,8 +20,8 @@ export const parseService = async (url: string) => {
 			content: item.content, 
 			contentSnippet: item.contentSnippet, 
 			guid: item.guid, 
-			categories: item.categories,
-			isoDate: item.isoData ? item.isoData : item.isoDate, 
+			categories: item.categories[0],
+			isoDate: item.isoData ? new Date(item.isoData) : new Date(item.isoDate), 
 		}
 		articles.push(newArticle)
 	})
@@ -38,4 +39,9 @@ export const refreshFeedService = async() => {
 	return {newFeed, newFeedCount}
 }
 
+
+export const queryFeedService = async({category, searchQuery, sorting, page, limit, skip}: IQueryObject) => {
+	const {result, totalArticles} = await queryArticles({category, searchQuery, sorting, page, limit, skip})
+	return {result, totalArticles}
+}
 

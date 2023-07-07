@@ -25,10 +25,10 @@ export const ArticleSchema = new mongoose.Schema({
 		type: String
 	},
 	categories: {
-		type: Array
+		type: String
 	},
 	isoDate: {
-		type: String
+		type: Date
 	}
 }, {timestamps: true})
 
