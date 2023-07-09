@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.queryFeedService = exports.refreshFeedService = exports.parseService = void 0;
+exports.deleteSingleArticleService = exports.updateSingleArticleService = exports.queryFeedService = exports.refreshFeedService = exports.parseService = void 0;
 const rss_parser_1 = __importDefault(require("rss-parser"));
 const parser_repository_1 = require("../repositories/parser.repository");
 const parseService = (url) => __awaiter(void 0, void 0, void 0, function* () {
@@ -26,7 +26,7 @@ const parseService = (url) => __awaiter(void 0, void 0, void 0, function* () {
             link: item.link,
             pubDate: item.pubData ? item.pubData : item.pubDate,
             enclosure: {
-                url: item.enclosure.url
+                url: item.enclosure.url,
             },
             content: item.content,
             contentSnippet: item.contentSnippet,
@@ -48,8 +48,25 @@ const refreshFeedService = () => __awaiter(void 0, void 0, void 0, function* () 
     return { newFeed, newFeedCount };
 });
 exports.refreshFeedService = refreshFeedService;
-const queryFeedService = ({ category, searchQuery, sorting, page, limit, skip }) => __awaiter(void 0, void 0, void 0, function* () {
-    const { result, totalArticles } = yield (0, parser_repository_1.queryArticles)({ category, searchQuery, sorting, page, limit, skip });
+const queryFeedService = ({ category, searchQuery, sorting, page, limit, skip, }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { result, totalArticles } = yield (0, parser_repository_1.queryArticles)({
+        category,
+        searchQuery,
+        sorting,
+        page,
+        limit,
+        skip,
+    });
     return { result, totalArticles };
 });
 exports.queryFeedService = queryFeedService;
+const updateSingleArticleService = ({ guid, newTextContent }) => __awaiter(void 0, void 0, void 0, function* () {
+    const updatedArticle = yield (0, parser_repository_1.updateArticle)({ guid, newTextContent });
+    return updatedArticle;
+});
+exports.updateSingleArticleService = updateSingleArticleService;
+const deleteSingleArticleService = ({ guid }) => __awaiter(void 0, void 0, void 0, function* () {
+    const deletedCount = yield (0, parser_repository_1.deleteArticle)({ guid });
+    return deletedCount;
+});
+exports.deleteSingleArticleService = deleteSingleArticleService;

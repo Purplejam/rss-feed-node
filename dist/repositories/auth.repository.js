@@ -19,7 +19,7 @@ const findUserRepository = (email) => __awaiter(void 0, void 0, void 0, function
     return user;
 });
 exports.findUserRepository = findUserRepository;
-const createUserRepository = ({ name, email, password, role, verificationToken }) => __awaiter(void 0, void 0, void 0, function* () {
+const createUserRepository = ({ name, email, password, role, verificationToken, }) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield UserSchema_1.User.create({ name, email, password, role, verificationToken });
     if (!user)
         return null;
@@ -37,7 +37,7 @@ const deleteTokenRepository = (user) => __awaiter(void 0, void 0, void 0, functi
     const token = yield TokenSchema_1.Token.findOneAndDelete({ user });
 });
 exports.deleteTokenRepository = deleteTokenRepository;
-const createTokenRepository = ({ refreshToken, ip, userAgent, user }) => __awaiter(void 0, void 0, void 0, function* () {
+const createTokenRepository = ({ refreshToken, ip, userAgent, user, }) => __awaiter(void 0, void 0, void 0, function* () {
     const token = yield TokenSchema_1.Token.create({ refreshToken, ip, userAgent, user });
     if (!token)
         return null;

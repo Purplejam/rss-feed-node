@@ -12,11 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bootstrap = void 0;
 const connectDB_1 = require("./connectDB");
 const index_1 = require("./index");
+const cron_service_1 = require("./services/cron.service");
+const undici_1 = require("undici");
 const bootstrap = () => __awaiter(void 0, void 0, void 0, function* () {
     const port = process.env.PORT || 5000;
     try {
         yield (0, connectDB_1.connectDB)(process.env.MONGO_URI);
         index_1.app.listen(port, () => console.log(`Server is listening on port ${port}...`));
+        (0, undici_1.fetch)('http://localhost:5000/api/v1/feed')
+            .then((response) => (0, cron_service_1.cronFunctionService)())
+            .catch((error) => console.log(error));
     }
     catch (error) {
         console.log(error);

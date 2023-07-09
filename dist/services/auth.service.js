@@ -30,7 +30,7 @@ exports.registerService = registerService;
 const attachCookieService = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const tokenUser = (0, createTokenUser_service_1.createTokenUser)({ name: user.name, id: user._id, role: user.role });
     let refreshToken = '';
-    let existingToken = yield (0, auth_repository_1.findTokenRepository)(user._id);
+    const existingToken = yield (0, auth_repository_1.findTokenRepository)(user._id);
     if (existingToken) {
         const { isValid } = existingToken;
         if (!isValid) {
@@ -48,7 +48,7 @@ const attachCookieService = (req, res, user) => __awaiter(void 0, void 0, void 0
             isValid: true,
             ip,
             userAgent,
-            user: user._id
+            user: user._id,
         };
         yield (0, auth_repository_1.createTokenRepository)(userToken);
         (0, jwt_service_1.attachCookiesToResponse)(res, tokenUser, refreshToken);

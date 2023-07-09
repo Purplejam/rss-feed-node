@@ -38,21 +38,21 @@ exports.UserSchema = new mongoose_1.default.Schema({
         default: 'user',
     },
     verificationToken: {
-        type: String
+        type: String,
     },
     isVerified: {
         type: Boolean,
         default: true,
     },
     verified: {
-        type: Date
+        type: Date,
     },
     passwordToken: {
         type: String,
     },
     passwordTokenExpirationDate: {
         type: Date,
-    }
+    },
 });
 exports.UserSchema.pre('save', function () {
     return __awaiter(this, void 0, void 0, function* () {

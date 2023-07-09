@@ -28,7 +28,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST);
     }
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
-        msg: 'Success! User has been created'
+        msg: 'Success! New user has been created',
     });
 });
 exports.register = register;
@@ -58,7 +58,7 @@ const showCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.status(http_status_codes_1.StatusCodes.OK).json({ user: req.user });
     }
     else {
-        res.status(http_status_codes_1.StatusCodes.OK).json({ msg: 'There is no user' });
+        res.status(http_status_codes_1.StatusCodes.OK).json({ msg: 'There is no user, please login' });
     }
 });
 exports.showCurrentUser = showCurrentUser;

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.queryFeedController = exports.parseController = void 0;
+exports.deleteSingleArticleController = exports.updateSingleArticleController = exports.queryFeedController = exports.parseController = void 0;
 const parse_service_1 = require("../services/parse.service");
 const http_status_codes_1 = require("http-status-codes");
 const errors_1 = require("../errors");
@@ -26,10 +26,36 @@ const queryFeedController = (req, res) => __awaiter(void 0, void 0, void 0, func
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 6;
     const skip = (page - 1) * limit;
-    const { result, totalArticles } = yield (0, parse_service_1.queryFeedService)({ category, searchQuery, sorting, page, limit, skip });
+    const { result, totalArticles } = yield (0, parse_service_1.queryFeedService)({
+        category,
+        searchQuery,
+        sorting,
+        page,
+        limit,
+        skip,
+    });
     if (!result) {
         throw new errors_1.BadRequestError('Bad request: Oops, something went wrong!');
     }
     res.status(http_status_codes_1.StatusCodes.OK).json({ total: totalArticles, articles: result });
 });
 exports.queryFeedController = queryFeedController;
+const updateSingleArticleController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { guid, newTextContent } = req.body;
+    if (!guid || !newTextContent || newTextContent.length > 350) {
+        throw new errors_1.BadRequestError('Bad request: Oops, something went wrong!');
+    }
+    const updatedArticle = yield (0, parse_service_1.updateSingleArticleService)({ guid, newTextContent });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ newArticle: updatedArticle });
+});
+exports.updateSingleArticleController = updateSingleArticleController;
+const deleteSingleArticleController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { guid } = req.query;
+    console.log(guid);
+    if (!guid) {
+        throw new errors_1.BadRequestError('Bad request: Oops, something went wrong!');
+    }
+    const deletedCount = yield (0, parse_service_1.deleteSingleArticleService)({ guid });
+    res.status(http_status_codes_1.StatusCodes.OK).json({ deletedCount });
+});
+exports.deleteSingleArticleController = deleteSingleArticleController;

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.queryArticles = exports.createNewFeed = exports.feedDeleteMany = void 0;
+exports.deleteArticle = exports.updateArticle = exports.queryArticles = exports.createNewFeed = exports.feedDeleteMany = void 0;
 const Article_schema_1 = require("../models/Article.schema");
 const sortingMap_1 = require("../controllers/sortingMap");
 const feedDeleteMany = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -22,8 +22,8 @@ const createNewFeed = (articles) => __awaiter(void 0, void 0, void 0, function* 
     return newFeed;
 });
 exports.createNewFeed = createNewFeed;
-const queryArticles = ({ category, searchQuery, sorting, page, limit, skip }) => __awaiter(void 0, void 0, void 0, function* () {
-    let queryObject = {};
+const queryArticles = ({ category, searchQuery, sorting, page, limit, skip, }) => __awaiter(void 0, void 0, void 0, function* () {
+    const queryObject = {};
     if (category && category !== '' && category !== 'Усі') {
         queryObject.categories = { $regex: category, $options: 'i' };
     }
@@ -40,3 +40,15 @@ const queryArticles = ({ category, searchQuery, sorting, page, limit, skip }) =>
     return { result, totalArticles };
 });
 exports.queryArticles = queryArticles;
+const updateArticle = ({ guid, newTextContent }) => __awaiter(void 0, void 0, void 0, function* () {
+    const filter = { guid };
+    const update = { contentSnippet: newTextContent };
+    const updatedArticle = yield Article_schema_1.Article.findOneAndUpdate(filter, update);
+    return updatedArticle;
+});
+exports.updateArticle = updateArticle;
+const deleteArticle = ({ guid }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { deletedCount } = yield Article_schema_1.Article.deleteOne({ guid });
+    return deletedCount;
+});
+exports.deleteArticle = deleteArticle;

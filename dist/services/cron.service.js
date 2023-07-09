@@ -10,7 +10,7 @@ const cronFunctionService = () => {
     return node_cron_1.default.schedule('*/10 * * * *', () => {
         (0, undici_1.fetch)('http://localhost:5000/api/v1/feed')
             .then((res) => res.json())
-            .then((res) => console.log(res))
+            .then((res) => console.log('Articles update!'))
             .catch((error) => console.log(error));
     });
 };

@@ -8,19 +8,19 @@ const mongoose_1 = __importDefault(require("mongoose"));
 exports.TokenSchema = new mongoose_1.default.Schema({
     refreshToken: {
         type: String,
-        required: true
+        required: true,
     },
     ip: {
         type: String,
-        required: true
+        required: true,
     },
     userAgent: {
         type: String,
-        required: true
+        required: true,
     },
     isValid: {
         type: Boolean,
-        default: true
+        default: true,
     },
     user: {
         type: mongoose_1.default.Types.ObjectId,

@@ -36,7 +36,7 @@ const authenticateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         }
         const existingToken = yield TokenSchema_1.Token.findOne({
             user: payload.user.id,
-            refreshToken: payload.refreshToken
+            refreshToken: payload.refreshToken,
         });
         if (!existingToken) {
             return next();
