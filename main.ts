@@ -10,9 +10,9 @@ export const bootstrap = async (): Promise<void> => {
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     )
-    //fetch('http://localhost:5000/api/v1/feed')
-    //.then(response => cronFunctionService())
-    //.catch(error => console.log(error))
+    fetch('http://localhost:5000/api/v1/feed')
+    .then(response => cronFunctionService())
+    .catch(error => console.log(error))
   } catch (error) {
     console.log(error)
   }

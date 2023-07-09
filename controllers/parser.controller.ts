@@ -1,4 +1,4 @@
-import { queryFeedService, refreshFeedService} from '../services/parse.service'
+import { queryFeedService, refreshFeedService, updateSingleArticleService, deleteSingleArticleService} from '../services/parse.service'
 import {Request, Response} from 'express'
 import {StatusCodes} from 'http-status-codes'
 import {Article} from '../models/Article.schema'
@@ -27,4 +27,25 @@ export const queryFeedController = async (req: Request, res: Response) => {
 	}
  res.status(StatusCodes.OK).json({total: totalArticles, articles: result})
 }
+
+export const updateSingleArticleController = async (req: Request, res: Response) => {
+	const {guid, newTextContent} = req.body
+	if (!guid || !newTextContent || newTextContent.length > 350) {
+		throw new BadRequestError('Bad request: Oops, something went wrong!')
+	}
+	const updatedArticle = await updateSingleArticleService({guid, newTextContent})
+	res.status(StatusCodes.OK).json({newArticle: updatedArticle})
+}
+
+export const deleteSingleArticleController = async (req: Request, res: Response) => {
+	const {guid} = req.query
+	console.log(guid)
+	if (!guid) {
+		throw new BadRequestError('Bad request: Oops, something went wrong!')
+	}	
+	const deletedCount = await deleteSingleArticleService({guid})
+	res.status(StatusCodes.OK).json({deletedCount})
+}
+
+
 

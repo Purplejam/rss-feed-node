@@ -2,6 +2,8 @@ import {Article} from '../models/Article.schema'
 import {IArticle} from '../models/interfaces/Article.interface'
 import {IQueryObject} from '../controllers/interfaces/query.interface'
 import {querySortingMap} from '../controllers/sortingMap'
+import {IUpdateArticle} from '../controllers/interfaces/updateArticle.interface'
+import {IRemoveArticle} from '../controllers/interfaces/removeArticle.interface'
 
 export const feedDeleteMany = async() => {
 	const {deletedCount} = await Article.deleteMany({})
@@ -35,3 +37,14 @@ export const queryArticles = async({category, searchQuery, sorting, page, limit,
  return {result, totalArticles}
 }
 
+export const updateArticle = async ({guid, newTextContent}: IUpdateArticle) => {
+ const filter = {guid}
+ const update = {contentSnippet: newTextContent}
+ const updatedArticle = await Article.findOneAndUpdate(filter, update)
+ return updatedArticle
+}
+
+export const deleteArticle = async ({guid}: IRemoveArticle): Promise<any> => {
+ const {deletedCount} = await Article.deleteOne({guid})
+ return deletedCount
+}
