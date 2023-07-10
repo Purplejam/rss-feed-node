@@ -19,7 +19,7 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const yamljs_1 = __importDefault(require("yamljs"));
 dotenv_1.default.config();
 exports.app = (0, express_1.default)();
-const swaggerDoc = yamljs_1.default.load('../swagger.yaml');
+const swaggerDoc = yamljs_1.default.load('./swagger.yaml');
 exports.app.use(express_1.default.json());
 exports.app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 exports.app.use((0, cors_1.default)({ origin: 'http://localhost:3000', credentials: true }));
