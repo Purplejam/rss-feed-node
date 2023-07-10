@@ -1,0 +1,298 @@
+openapi: 3.0.0
+info:
+  title: feed-rss-api
+  contact: {}
+  version: '1.0'
+servers:
+- url: https://rss-feed-node.onrender.com/api/v1
+  variables: {}
+paths:
+  /feed/articles:
+    get:
+      tags:
+      - Articles Feed
+      summary: All Articles Query
+      description: returns all available articles
+      operationId: AllArticlesQuery
+      parameters:
+      - name: category
+        in: query
+        description: ''
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: searchQuery
+        in: query
+        description: ''
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sorting
+        in: query
+        description: ''
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: ''
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: ''
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'total: number, articles: array'
+              example: 'total: number, articles: array'
+      deprecated: false
+      security: []
+  /feed:
+    get:
+      tags:
+      - Articles Feed
+      summary: Update Articles Feed
+      operationId: UpdateArticlesFeed
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'articlesCount: number'
+              example: 'articlesCount: number'
+      deprecated: false
+      security:
+      - bearer: []
+  /feed/update-article:
+    patch:
+      tags:
+      - Articles Feed
+      summary: Update Single Article
+      operationId: UpdateSingleArticle
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/UpdateSingleArticleRequest'
+              - example:
+                  guid: some_string_value
+                  newTextContent: some_string_value
+            example:
+              guid: some_string_value
+              newTextContent: some_string_value
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'newArticle: article{}'
+              example: 'newArticle: article{}'
+      deprecated: false
+      security:
+      - bearer: []
+    delete:
+      tags:
+      - Articles Feed
+      summary: Delete Single Article
+      operationId: DeleteSingleArticle
+      parameters:
+      - name: guid
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: some_string_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'deletedCount: 1'
+              example: 'deletedCount: 1'
+      deprecated: false
+      security:
+      - bearer: []
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Create New User
+      description: register a new user
+      operationId: CreateNewUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateNewUserRequest'
+              - example:
+                  name: name
+                  email: yourmail2@gmail.com
+                  password: password
+            example:
+              name: name
+              email: yourmail2@gmail.com
+              password: password
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'msg: string'
+              example: 'msg: string'
+      deprecated: false
+  /auth/login:
+    post:
+      tags:
+      - Auth
+      summary: Login User
+      operationId: LoginUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/LoginUserRequest'
+              - example:
+                  email: user@gmail.com
+                  password: password
+            example:
+              email: user@gmail.com
+              password: password
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'name: string, role: string, email: string'
+              example: 'name: string, role: string, email: string'
+      deprecated: false
+  /auth/show-me:
+    get:
+      tags:
+      - Auth
+      summary: Show Current User
+      operationId: ShowCurrentUser
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'name: string, role: string, email: string'
+              example: 'name: string, role: string, email: string'
+      deprecated: false
+      security:
+      - bearer: []
+components:
+  schemas:
+    CreateNewUserRequest:
+      title: CreateNewUserRequest
+      required:
+      - name
+      - email
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: admin alex
+        email: admin-node-2@admin.com
+        password: adminUser
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: admin-node@admin.com
+        password: adminUser
+    UpdateSingleArticleRequest:
+      title: UpdateSingleArticleRequest
+      required:
+      - guid
+      - newTextContent
+      type: object
+      properties:
+        guid:
+          type: string
+        newTextContent:
+          type: string
+      example:
+        guid: some_string_value
+        newTextContent: some_string_value
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+- name: Articles Feed
+  description: ''
+- name: Auth
+  description: ''
