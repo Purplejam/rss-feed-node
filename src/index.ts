@@ -15,7 +15,7 @@ import YAML from 'yamljs'
 dotenv.config()
 
 export const app = express()
-const swaggerDoc = YAML.load('../swagger.yaml')
+const swaggerDoc = YAML.load('./swagger.yaml')
 
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET as string))
