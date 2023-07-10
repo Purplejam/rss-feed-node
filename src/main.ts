@@ -8,7 +8,7 @@ export const bootstrap = async (): Promise<void> => {
 	try {
 		await connectDB(process.env.MONGO_URI as string)
 		app.listen(port, () => console.log(`Server is listening on port ${port}...`))
-		fetch('https://rss-feed-node.onrender.com/api/v1/feed')
+		fetch('/api/v1/feed')
 			.then((response) => cronFunctionService())
 			.catch((error) => console.log(error))
 	} catch (error) {
