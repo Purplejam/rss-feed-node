@@ -14,6 +14,9 @@ const auth_service_1 = require("../services/auth.service");
 const errors_1 = require("../errors");
 const http_status_codes_1 = require("http-status-codes");
 const UserSchema_1 = require("../models/UserSchema");
+const user_validator_1 = require("../models/user.validator");
+const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, name, password } = req.body;
     if (!email || !name || !password) {
@@ -22,6 +25,11 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const emailAlreadyExists = yield UserSchema_1.User.findOne({ email });
     if (emailAlreadyExists) {
         throw new errors_1.BadRequestError('Email already exists');
+    }
+    const userValidator = (0, class_transformer_1.plainToClass)(user_validator_1.UserValidator, req.body);
+    const errors = yield (0, class_validator_1.validate)(userValidator);
+    if (errors.length > 0) {
+        return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(errors);
     }
     const user = yield (0, auth_service_1.registerService)(email, name, password);
     if (!user) {

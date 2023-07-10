@@ -5,7 +5,11 @@ import { ITokenUser } from '../services/interfaces/createTokenUser.interface'
 import { UnauthenticatedError } from '../errors'
 import { Token } from '../models/TokenSchema'
 
-export const authenticateUser = async (req: Request, res: Response, next: NextFunction): Promise<void | NextFunction> => {
+export const authenticateUser = async (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+): Promise<void | NextFunction> => {
 	const { refreshToken, accessToken } = req.signedCookies
 	if (!refreshToken && !accessToken) {
 		return next()

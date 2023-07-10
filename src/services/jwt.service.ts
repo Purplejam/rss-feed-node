@@ -14,7 +14,11 @@ export const isTokenValid = (token: string) => {
 	return jwt.verify(token, secret as string)
 }
 
-export const attachCookiesToResponse = (res: Response, user: ITokenUser, refreshToken: string): void => {
+export const attachCookiesToResponse = (
+	res: Response,
+	user: ITokenUser,
+	refreshToken: string,
+): void => {
 	const accessTokenJWT = createJWT({ payload: { user } })
 	const refreshTokenJWT = createJWT({ payload: { user, refreshToken } })
 

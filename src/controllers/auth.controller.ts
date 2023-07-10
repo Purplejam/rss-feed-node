@@ -9,6 +9,9 @@ import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { Token } from '../models/TokenSchema'
 import { User } from '../models/UserSchema'
+import { UserValidator } from '../models/user.validator'
+import { validate, ValidationError } from 'class-validator'
+import { plainToClass } from 'class-transformer'
 
 export const register = async (req: Request, res: Response): Promise<void | Response> => {
 	const { email, name, password } = req.body
@@ -18,6 +21,11 @@ export const register = async (req: Request, res: Response): Promise<void | Resp
 	const emailAlreadyExists = await User.findOne({ email })
 	if (emailAlreadyExists) {
 		throw new BadRequestError('Email already exists')
+	}
+	const userValidator = plainToClass(UserValidator, req.body)
+	const errors: ValidationError[] = await validate(userValidator)
+	if (errors.length > 0) {
+		return res.status(StatusCodes.BAD_REQUEST).json(errors)
 	}
 	const user = await registerService(email, name, password)
 	if (!user) {

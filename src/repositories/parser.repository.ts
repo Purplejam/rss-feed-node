@@ -5,9 +5,8 @@ import { querySortingMap } from '../controllers/sortingMap'
 import { IUpdateArticle } from '../controllers/interfaces/updateArticle.interface'
 import { IRemoveArticle } from '../controllers/interfaces/removeArticle.interface'
 
-
 interface queryArticlesReturnType {
-	totalArticles: number,
+	totalArticles: number
 	result: IArticleSchema[]
 }
 
@@ -50,7 +49,10 @@ export const queryArticles = async ({
 	return { result, totalArticles }
 }
 
-export const updateArticle = async ({ guid, newTextContent }: IUpdateArticle): Promise<null | IArticleSchema> => {
+export const updateArticle = async ({
+	guid,
+	newTextContent,
+}: IUpdateArticle): Promise<null | IArticleSchema> => {
 	const filter = { guid }
 	const update = { contentSnippet: newTextContent }
 	const updatedArticle = await Article.findOneAndUpdate(filter, update)

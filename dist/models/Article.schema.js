@@ -8,43 +8,43 @@ const mongoose_1 = __importDefault(require("mongoose"));
 exports.ArticleSchema = new mongoose_1.default.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     link: {
         type: String,
-        required: true
+        required: true,
     },
     pubDate: {
         type: String,
-        required: true
+        required: true,
     },
     enclosure: {
         required: true,
         type: Object,
         url: {
             type: String,
-            required: true
+            required: true,
         },
     },
     content: {
         type: String,
-        required: true
+        required: true,
     },
     contentSnippet: {
         type: String,
-        required: true
+        required: true,
     },
     guid: {
         type: String,
-        required: true
+        required: true,
     },
     categories: {
         type: String,
-        required: true
+        required: true,
     },
     isoDate: {
         type: Date,
-        required: true
+        required: true,
     },
 }, { timestamps: true });
 exports.Article = mongoose_1.default.model('Article', exports.ArticleSchema);

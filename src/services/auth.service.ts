@@ -9,6 +9,9 @@ import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { Token } from '../models/TokenSchema'
 import { User } from '../models/UserSchema'
+import { validate, ValidationError } from 'class-validator'
+import { TokenValidator } from '../models/token.validator'
+import { plainToClass } from 'class-transformer'
 import {
 	createTokenRepository,
 	findTokenRepository,
@@ -55,6 +58,11 @@ export const attachCookieService = async (
 			ip,
 			userAgent,
 			user: user._id,
+		}
+		const tokenValidator = plainToClass(TokenValidator, userToken)
+		const errors: ValidationError[] = await validate(tokenValidator)
+		if (errors.length > 0) {
+			throw new UnauthenticatedError('Invalid Credentials')
 		}
 		await createTokenRepository(userToken)
 		attachCookiesToResponse(res, tokenUser, refreshToken)

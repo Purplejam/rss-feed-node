@@ -4,43 +4,43 @@ export const ArticleSchema = new mongoose.Schema(
 	{
 		title: {
 			type: String,
-			required: true
+			required: true,
 		},
 		link: {
 			type: String,
-			required: true
+			required: true,
 		},
 		pubDate: {
 			type: String,
-			required: true
+			required: true,
 		},
 		enclosure: {
 			required: true,
 			type: Object,
 			url: {
 				type: String,
-				required: true
+				required: true,
 			},
 		},
 		content: {
 			type: String,
-			required: true
+			required: true,
 		},
 		contentSnippet: {
 			type: String,
-			required: true
+			required: true,
 		},
 		guid: {
 			type: String,
-			required: true
+			required: true,
 		},
 		categories: {
 			type: String,
-			required: true
+			required: true,
 		},
 		isoDate: {
 			type: Date,
-			required: true
+			required: true,
 		},
 	},
 	{ timestamps: true },

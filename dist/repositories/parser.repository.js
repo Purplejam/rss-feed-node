@@ -40,7 +40,7 @@ const queryArticles = ({ category, searchQuery, sorting, page, limit, skip, }) =
     return { result, totalArticles };
 });
 exports.queryArticles = queryArticles;
-const updateArticle = ({ guid, newTextContent }) => __awaiter(void 0, void 0, void 0, function* () {
+const updateArticle = ({ guid, newTextContent, }) => __awaiter(void 0, void 0, void 0, function* () {
     const filter = { guid };
     const update = { contentSnippet: newTextContent };
     const updatedArticle = yield Article_schema_1.Article.findOneAndUpdate(filter, update);

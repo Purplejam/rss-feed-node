@@ -1,7 +1,7 @@
 import cron from 'node-cron'
 import { fetch } from 'undici'
 
-export const cronFunctionService = () => {
+export const cronFunctionService = (): cron.ScheduledTask => {
 	//request on every ten minutes
 	return cron.schedule('*/10 * * * *', () => {
 		fetch('http://localhost:5000/api/v1/feed')

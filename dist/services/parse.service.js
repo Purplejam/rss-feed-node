@@ -60,7 +60,7 @@ const queryFeedService = ({ category, searchQuery, sorting, page, limit, skip, }
     return { result, totalArticles };
 });
 exports.queryFeedService = queryFeedService;
-const updateSingleArticleService = ({ guid, newTextContent }) => __awaiter(void 0, void 0, void 0, function* () {
+const updateSingleArticleService = ({ guid, newTextContent, }) => __awaiter(void 0, void 0, void 0, function* () {
     const updatedArticle = yield (0, parser_repository_1.updateArticle)({ guid, newTextContent });
     return updatedArticle;
 });

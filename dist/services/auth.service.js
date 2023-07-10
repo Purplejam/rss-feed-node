@@ -18,6 +18,9 @@ const jwt_service_1 = require("./jwt.service");
 const errors_1 = require("../errors");
 const createTokenUser_service_1 = require("./createTokenUser.service");
 const UserSchema_1 = require("../models/UserSchema");
+const class_validator_1 = require("class-validator");
+const token_validator_1 = require("../models/token.validator");
+const class_transformer_1 = require("class-transformer");
 const auth_repository_1 = require("../repositories/auth.repository");
 const registerService = (email, name, password) => __awaiter(void 0, void 0, void 0, function* () {
     const isFirstAccount = (yield UserSchema_1.User.countDocuments({})) === 0;
@@ -50,6 +53,11 @@ const attachCookieService = (req, res, user) => __awaiter(void 0, void 0, void 0
             userAgent,
             user: user._id,
         };
+        const tokenValidator = (0, class_transformer_1.plainToClass)(token_validator_1.TokenValidator, userToken);
+        const errors = yield (0, class_validator_1.validate)(tokenValidator);
+        if (errors.length > 0) {
+            throw new errors_1.UnauthenticatedError('Invalid Credentials');
+        }
         yield (0, auth_repository_1.createTokenRepository)(userToken);
         (0, jwt_service_1.attachCookiesToResponse)(res, tokenUser, refreshToken);
     }

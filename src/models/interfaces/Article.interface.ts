@@ -16,7 +16,6 @@ export interface IArticle {
 	isoData?: string
 }
 
-
 export interface IArticleSchema extends mongoose.Document {
 	title: string
 	link: string

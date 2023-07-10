@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 require("express-async-errors");
+require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
 const rss_router_1 = __importDefault(require("./routes/rss.router"));
 const auth_router_1 = __importDefault(require("./routes/auth.router"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -18,7 +20,11 @@ exports.app = (0, express_1.default)();
 exports.app.use(express_1.default.json());
 exports.app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 exports.app.use((0, cors_1.default)({ origin: 'http://localhost:3000', credentials: true }));
+exports.app.use(express_1.default.static(path_1.default.resolve(__dirname, './client/build')));
 exports.app.use('/api/v1/feed', rss_router_1.default);
 exports.app.use('/api/v1/auth', auth_router_1.default);
+exports.app.get('*', (req, res) => {
+    res.sendFile(path_1.default.resolve(__dirname, './client/build', 'index.html'));
+});
 exports.app.use(notFound_1.notFoundMiddleware);
 exports.app.use(errorHandler_1.errorHandlerMiddleware);

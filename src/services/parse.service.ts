@@ -11,6 +11,16 @@ import { IQueryObject } from '../controllers/interfaces/query.interface'
 import { IUpdateArticle } from '../controllers/interfaces/updateArticle.interface'
 import { IRemoveArticle } from '../controllers/interfaces/removeArticle.interface'
 
+interface refreshFeedServiceReturnType {
+	newFeedCount: number
+	newFeed: IArticleSchema[]
+}
+
+interface queryFeedServiceReturnType {
+	totalArticles: number
+	result: IArticleSchema[]
+}
+
 export const parseService = async (url: string): Promise<IArticle[]> => {
 	const parser = new Parser()
 	const feed = await parser.parseURL(url)
@@ -37,7 +47,7 @@ export const parseService = async (url: string): Promise<IArticle[]> => {
 	return articles
 }
 
-export const refreshFeedService = async () => {
+export const refreshFeedService = async (): Promise<refreshFeedServiceReturnType> => {
 	const url = process.env.PARSE_URL || 'https://nv.ua/ukr/rss/all.xml'
 	const articles = await parseService(url)
 	const deletedFeed = await feedDeleteMany()
@@ -53,7 +63,7 @@ export const queryFeedService = async ({
 	page,
 	limit,
 	skip,
-}: IQueryObject) => {
+}: IQueryObject): Promise<queryFeedServiceReturnType> => {
 	const { result, totalArticles } = await queryArticles({
 		category,
 		searchQuery,
@@ -65,7 +75,10 @@ export const queryFeedService = async ({
 	return { result, totalArticles }
 }
 
-export const updateSingleArticleService = async ({ guid, newTextContent }: IUpdateArticle): Promise<null | IArticleSchema> => {
+export const updateSingleArticleService = async ({
+	guid,
+	newTextContent,
+}: IUpdateArticle): Promise<null | IArticleSchema> => {
 	const updatedArticle = await updateArticle({ guid, newTextContent })
 	return updatedArticle
 }
