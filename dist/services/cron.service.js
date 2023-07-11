@@ -7,7 +7,8 @@ exports.cronFunctionService = void 0;
 const node_cron_1 = __importDefault(require("node-cron"));
 const undici_1 = require("undici");
 const cronFunctionService = () => {
-    return node_cron_1.default.schedule('*/10 * * * *', () => {
+    const timeInterval = process.env.INTERVAL_DURATION || 10;
+    return node_cron_1.default.schedule(`*/${timeInterval} * * * *`, () => {
         (0, undici_1.fetch)('https://rss-feed-node.onrender.com/api/v1/feed')
             .then((res) => res.json())
             .then((res) => console.log('Articles update!'))
