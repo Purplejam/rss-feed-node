@@ -19,7 +19,7 @@ const bootstrap = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, connectDB_1.connectDB)(process.env.MONGO_URI);
         index_1.app.listen(port, () => console.log(`Server is listening on port ${port}...`));
-        (0, undici_1.fetch)('/api/v1/feed')
+        (0, undici_1.fetch)('https://rss-feed-node.onrender.com/api/v1/feed')
             .then((response) => (0, cron_service_1.cronFunctionService)())
             .catch((error) => console.log(error));
     }

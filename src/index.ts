@@ -15,12 +15,12 @@ import YAML from 'yamljs'
 dotenv.config()
 
 export const app = express()
-const swagger_path =  path.resolve(__dirname,'./swagger.yaml')
+const swagger_path = path.resolve(__dirname, './swagger.yaml')
 const swaggerDoc = YAML.load(swagger_path)
 
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET as string))
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+app.use(cors({ origin: 'https://rss-feed-node.onrender.com/', credentials: true }))
 
 app.use(express.static(path.resolve(__dirname, './client/build')))
 

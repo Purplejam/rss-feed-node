@@ -23,7 +23,7 @@ const swagger_path = path_1.default.resolve(__dirname, './swagger.yaml');
 const swaggerDoc = yamljs_1.default.load(swagger_path);
 exports.app.use(express_1.default.json());
 exports.app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
-exports.app.use((0, cors_1.default)({ origin: 'http://localhost:3000', credentials: true }));
+exports.app.use((0, cors_1.default)({ origin: 'https://rss-feed-node.onrender.com/', credentials: true }));
 exports.app.use(express_1.default.static(path_1.default.resolve(__dirname, './client/build')));
 exports.app.use('/api/v1/feed', rss_router_1.default);
 exports.app.use('/api/v1/auth', auth_router_1.default);
