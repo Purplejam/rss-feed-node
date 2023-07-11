@@ -40,5 +40,17 @@ This documentation provides details about the available routes, request/response
 
 ## Available Scripts
 
-You can run this project on your localhost, but you should fix cookies for localhost usage in authorizaton workflow.
+You can run this project on your localhost, but you should fix cookies for localhost usage in authorizaton workflow, making secure options false in refresh and access tokens. 
+
+In the project directory, you can run:
+
+`npm start`
+
+Or to run with ts-mode and nodemon
+
+`npm run dev`
+
+To fix all lint errors
+
+`npm run lint:fix`
 
